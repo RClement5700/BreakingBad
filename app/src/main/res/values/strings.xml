@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">BreakingBad</string>
+    <string name="app_name_spaced">Breaking Bad</string>
+    <string name="select_characters">Select Characters</string>
+
+    <!-- item_view_character-->
+    <string name="name">Name:</string>
+    <string name="aka">AKA: </string>
+
+    <!-- details-->
+    <string name="birthday">Birthday:</string>
+    <string name="occupation">Occupation:</string>
+    <string name="status">Status: </string>
+    <string name="appearances">Seasons: </string>
+    <string name="portrayed_by">Portrayed By: </string>
+</resources>

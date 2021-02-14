@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@android:drawable/dialog_holo_light_frame"
+    tools:ignore="MissingDefaultResource">
+
+    <ImageView
+        android:id="@+id/iv_character_portrait"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/details_bg_ls"
+        android:background="@drawable/outline"
+        android:padding="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tv_input_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/name"
+        android:textSize="32sp"
+        android:textColor="@android:color/black"
+        android:textStyle="italic"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintStart_toEndOf="@+id/iv_character_portrait"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_open_details"
+        />
+
+    <TextView
+        android:id="@+id/tv_aka"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:maxLines="2"
+        android:text="@string/aka"
+        android:textSize="24sp"
+        android:textColor="@android:color/black"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintStart_toEndOf="@+id/iv_character_portrait"
+        app:layout_constraintTop_toBottomOf="@id/tv_input_name"
+        app:layout_constraintEnd_toStartOf="@id/tv_input_nickname"
+        />
+
+    <TextView
+        android:id="@+id/tv_input_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:maxLines="2"
+        android:textSize="24sp"
+        android:textColor="@android:color/black"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintStart_toEndOf="@+id/tv_aka"
+        app:layout_constraintTop_toBottomOf="@id/tv_input_name"
+        app:layout_constraintEnd_toStartOf="@id/btn_open_details"
+        />
+
+    <ImageButton
+        android:id="@+id/btn_open_details"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_continue"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
