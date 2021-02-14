@@ -19,6 +19,13 @@ import kotlinx.android.synthetic.main.activity_details.view.tv_input_name
 import kotlinx.android.synthetic.main.activity_homescreen.*
 import kotlinx.android.synthetic.main.item_view_character.view.*
 
+/*
+    TODO:
+        •The user should be able to search for a character by name
+        •The user should be able to filter characters by season appearance
+        •need to write unit tests
+ */
+
 class HomescreenActivity : AppCompatActivity() {
     private val characterViewModel: CharacterViewModel by viewModels {
         CharacterViewModel.CharacterViewModelFactory((application as BreakingBadApplication).repository)
