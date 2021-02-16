@@ -4,7 +4,7 @@
     <string name="select_characters">Select Characters</string>
 
     <!-- homescreen -->
-    <string name="query_hint">*case sensitive*</string>
+    <string name="query_hint">*Name*</string>
     <string name="one">1</string>
     <string name="two">2</string>
     <string name="three">3</string>
