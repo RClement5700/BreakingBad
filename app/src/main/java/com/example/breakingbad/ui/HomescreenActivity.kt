@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.CompoundButton
+import android.widget.ImageButton
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -98,5 +99,16 @@ class HomescreenActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
         Log.d("onQueryTextChange", "query: " + query)
         adapter?.filter?.filter(query)
         return true
+    }
+
+    fun showFilters(view: View) {
+        if (checkbox_layout.visibility == View.GONE) {
+            tv_seasons.visibility = View.VISIBLE
+            checkbox_layout.visibility = View.VISIBLE
+        }
+        else {
+            tv_seasons.visibility = View.GONE
+            checkbox_layout.visibility = View.GONE
+        }
     }
 }

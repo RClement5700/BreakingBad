@@ -10,7 +10,7 @@
     tools:context=".ui.HomescreenActivity"
     tools:ignore="MissingDefaultResource">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toolbar_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,9 +25,22 @@
             android:id="@+id/sv_search_characters"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
             app:queryHint="@string/query_hint"
             android:background="@drawable/outline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <ImageButton
+            android:id="@+id/img_btn_filters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:src="@drawable/ic_baseline_filter_list"
+            android:background="@drawable/outline"
+            android:onClick="showFilters"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sv_search_characters"
             />
 
         <TextView
@@ -37,16 +50,24 @@
             android:layout_margin="8dp"
             android:text="@string/seasons"
             android:textColor="@android:color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@id/img_btn_filters"
+            app:layout_constraintTop_toTopOf="@id/img_btn_filters"
+            />
 
 
     <LinearLayout
+        android:id="@+id/checkbox_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:background="@drawable/outline"
         android:padding="8dp"
         android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/tv_seasons"
+        app:layout_constraintStart_toEndOf="@id/img_btn_filters"
         >
             <CheckBox
                 android:id="@+id/season_1"
@@ -79,13 +100,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
     </LinearLayout>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_characters"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:padding="16dp"
         android:orientation="vertical"
         android:background="@drawable/outline_green"
