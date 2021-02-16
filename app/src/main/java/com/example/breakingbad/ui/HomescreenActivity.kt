@@ -2,8 +2,11 @@ package com.example.breakingbad.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
-import android.widget.Toast
+import android.widget.CompoundButton
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -19,27 +22,42 @@ import kotlinx.android.synthetic.main.activity_details.view.tv_input_name
 import kotlinx.android.synthetic.main.activity_homescreen.*
 import kotlinx.android.synthetic.main.item_view_character.view.*
 import java.util.*
+import kotlin.collections.ArrayList
 
-class HomescreenActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View.OnClickListener {
-    private val adapter = CharactersRecyclerViewAdapter()
+class HomescreenActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
+    CompoundButton.OnCheckedChangeListener {
+    private var adapter: CharactersRecyclerViewAdapter? = null
     private val characterViewModel: CharacterViewModel by viewModels {
         CharacterViewModel.CharacterViewModelFactory((application as BreakingBadApplication).repository)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homescreen)
-        val imgBtnFilters      = img_btn_filters
         val rvCharacters       = rv_characters
+        characterViewModel.allCharacters.observe(this, Observer {
+            adapter = CharactersRecyclerViewAdapter(it as ArrayList<BreakingBadCharacter>)
+            rvCharacters.adapter = adapter
+        })
         val svSearchCharacters = sv_search_characters
         svSearchCharacters.setOnQueryTextListener(this)
-        imgBtnFilters.setOnClickListener(this)
-        characterViewModel.allCharacters.observe(this, Observer {
-            adapter.submitList(it)
-        })
-        rvCharacters.adapter = adapter
+        val seasonOneCheckbox = season_1.apply {
+            setOnCheckedChangeListener(this@HomescreenActivity)
+        }
+        val seasonTwoCheckbox = season_2.apply {
+            setOnCheckedChangeListener(this@HomescreenActivity)
+        }
+        val seasonThreeCheckbox = season_3.apply {
+            setOnCheckedChangeListener(this@HomescreenActivity)
+        }
+        val seasonFourCheckbox = season_4.apply {
+            setOnCheckedChangeListener(this@HomescreenActivity)
+        }
+        val seasonFiveCheckbox = season_5.apply {
+            setOnCheckedChangeListener(this@HomescreenActivity)
+        }
     }
 
-    override fun onClick(v: View?) {
+    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         characterViewModel.allCharacters.observe(this, Observer {
             val seasons = arrayListOf<Int>()
             if (season_1.isChecked) {
@@ -65,37 +83,35 @@ class HomescreenActivity : AppCompatActivity(), SearchView.OnQueryTextListener, 
                     }
                 }
             }
+            val filteredAndSorted = arrayListOf<BreakingBadCharacter>()
             val filtered = filteredSet.toList().sortedBy { character ->
                 character.name
             }
-            adapter.submitList(filtered)
+            filtered.forEach {
+                filteredAndSorted.add(it)
+            }
+            adapter?.submitList(filteredAndSorted)
+            rv_characters.adapter = adapter
         })
     }
 
-    override fun onQueryTextSubmit(query: String): Boolean {
-        if (adapter.getCharacterNames().contains(query)) {
-            val character = adapter.getCharacterByName(query)
-            adapter.submitList(listOf(character)
-                        as List<BreakingBadCharacter>)
-        } else {
-            Toast.makeText(
-                this@HomescreenActivity, "No Match found", Toast.LENGTH_SHORT)
-                .show()
+    override fun onQueryTextSubmit(p0: String?): Boolean {
+        return true
+    }
+
+    override fun onQueryTextChange(query: String?): Boolean {
+        Log.d("onQueryTextChange", "query: " + query)
+        adapter?.filter?.filter(query)
+        return true
+    }
+
+    inner class CharactersRecyclerViewAdapter(private var bbCharacters: ArrayList<BreakingBadCharacter>):
+        RecyclerView.Adapter<CharactersRecyclerViewAdapter.CharactersRecyclerViewHolder>(), Filterable {
+        private var breakingBadCharacters = arrayListOf<BreakingBadCharacter>()
+
+        init {
+            breakingBadCharacters = bbCharacters
         }
-        return false
-    }
-
-    override fun onQueryTextChange(newText: String): Boolean {
-        characterViewModel.allCharacters.observe(this, Observer {
-            adapter.submitList(it)
-        })
-        return false
-    }
-
-    inner class CharactersRecyclerViewAdapter:
-        RecyclerView.Adapter<CharactersRecyclerViewAdapter.CharactersRecyclerViewHolder>(){
-
-        private var breakingBadCharacters = listOf<BreakingBadCharacter>()
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharactersRecyclerViewHolder {
             val v = LayoutInflater.from(parent.context).inflate(
                 R.layout.item_view_character,
@@ -105,6 +121,7 @@ class HomescreenActivity : AppCompatActivity(), SearchView.OnQueryTextListener, 
         }
         override fun onBindViewHolder(holder: CharactersRecyclerViewHolder, position: Int) {
             val character: BreakingBadCharacter    = breakingBadCharacters[position]
+
             holder.itemView.tv_input_nickname.text = character.nickname
             holder.itemView.tv_input_name.text     = character.name
             Picasso.get().load(character.img).into(holder.itemView.iv_character_portrait)
@@ -117,29 +134,38 @@ class HomescreenActivity : AppCompatActivity(), SearchView.OnQueryTextListener, 
         override fun getItemCount(): Int {
             return breakingBadCharacters.size
         }
-        fun submitList(breakingBadCharacters: List<BreakingBadCharacter>) {
+        fun submitList(breakingBadCharacters: ArrayList<BreakingBadCharacter>) {
             this.breakingBadCharacters = breakingBadCharacters
             notifyDataSetChanged()
         }
 
-        fun getCharacterNames(): List<String> {
-            val charNames = arrayListOf<String>()
-            breakingBadCharacters.forEach{
-                charNames.add(it.name)
-            }
-            return charNames
-        }
+        inner class CharactersRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-        fun getCharacterByName(name: String): BreakingBadCharacter? {
-            var character: BreakingBadCharacter? = null
-            breakingBadCharacters.forEach {
-                if (name.equals(it.name, ignoreCase = true) ||
-                    name.equals(it.nickname, ignoreCase = true)) {
-                        character = it
+        override fun getFilter(): Filter {
+            return object : Filter() {
+                override fun performFiltering(constraint: CharSequence?): FilterResults {
+                    val charSearch = constraint.toString()
+                    if (charSearch.isEmpty()) {
+                        breakingBadCharacters = bbCharacters as ArrayList<BreakingBadCharacter>
+                    } else {
+                        val resultList = ArrayList<BreakingBadCharacter>()
+                        for (row in bbCharacters) {
+                            if (row.name.toLowerCase().contains(constraint.toString().toLowerCase())) {
+                                resultList.add(row)
+                            }
+                        }
+                        breakingBadCharacters = resultList
+                    }
+                    val filterResults = FilterResults()
+                    filterResults.values = breakingBadCharacters
+                    return filterResults
+                }
+
+                override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                    breakingBadCharacters = results?.values as ArrayList<BreakingBadCharacter>
+                    notifyDataSetChanged()
                 }
             }
-            return character
         }
-        inner class CharactersRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     }
 }

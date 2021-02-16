@@ -30,18 +30,6 @@
             app:layout_constraintTop_toTopOf="parent"
             />
 
-        <ImageButton
-            android:id="@+id/img_btn_filters"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:padding="8dp"
-            android:src="@drawable/ic_baseline_filter_list"
-            android:background="@drawable/outline"
-            app:layout_constraintStart_toEndOf="@id/sv_search_characters"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-
         <TextView
             android:id="@+id/tv_seasons"
             android:layout_width="wrap_content"
