@@ -10,18 +10,17 @@
     <string name="three">3</string>
     <string name="four">4</string>
     <string name="five">5</string>
-    <string name="apply">Apply</string>
     <string name="seasons">Seasons:</string>
 
 
     <!-- item_view_character-->
     <string name="name">Name:</string>
-    <string name="aka">AKA: </string>
+    <string name="aka">AKA:</string>
 
     <!-- details-->
     <string name="birthday">Birthday:</string>
     <string name="occupation">Occupation:</string>
-    <string name="status">Status: </string>
-    <string name="appearances">Seasons: </string>
-    <string name="portrayed_by">Portrayed By: </string>
+    <string name="status">Status:</string>
+    <string name="appearances">Seasons:</string>
+    <string name="portrayed_by">Portrayed By:</string>
 </resources>

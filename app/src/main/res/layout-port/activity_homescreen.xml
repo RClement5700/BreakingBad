@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.appbar.AppBarLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,24 +10,24 @@
     tools:context=".ui.HomescreenActivity"
     tools:ignore="MissingDefaultResource">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/toolbar_filters"
+    <LinearLayout
+        android:id="@+id/toolbar_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/outline_green"
         android:padding="8dp"
         android:orientation="vertical"
-        android:background="@drawable/outline_green"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         >
         <androidx.appcompat.widget.SearchView
             android:id="@+id/sv_search_characters"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             app:queryHint="@string/query_hint"
             android:background="@drawable/outline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             />
 
         <TextView
@@ -37,20 +37,17 @@
             android:layout_margin="8dp"
             android:text="@string/seasons"
             android:textColor="@android:color/white"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/sv_search_characters"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@drawable/outline"
-            android:padding="8dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/tv_seasons"
-            app:layout_constraintStart_toStartOf="parent"
-            >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/outline"
+        android:padding="8dp"
+        android:orientation="horizontal"
+        >
             <CheckBox
                 android:id="@+id/season_1"
                 android:text="@string/one"
@@ -81,19 +78,23 @@
                 android:checked="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_characters"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:padding="16dp"
         android:orientation="vertical"
         android:background="@drawable/outline_green"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
         />
 
-</com.google.android.material.appbar.AppBarLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

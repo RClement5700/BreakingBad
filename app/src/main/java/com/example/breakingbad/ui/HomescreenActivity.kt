@@ -19,6 +19,7 @@ import java.util.*
 class HomescreenActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
     CompoundButton.OnCheckedChangeListener {
     private var adapter: CharactersRecyclerViewAdapter? = null
+    //build viewmodel outside of UI to prevent unwanted dataset changes
     private val characterViewModel: CharacterViewModel by viewModels {
         CharacterViewModel.CharacterViewModelFactory((application as BreakingBadApplication).repository)
     }
@@ -49,8 +50,9 @@ class HomescreenActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
         }
     }
 
+    //Filter RecyclerView based on Character's appearances in given seasons
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-        characterViewModel.allCharacters.observe(this, Observer {
+        characterViewModel.allCharacters.observe(this, Observer { characters ->
             val seasons = arrayListOf<Int>()
             if (season_1.isChecked) {
                 seasons.add(1)
@@ -68,7 +70,7 @@ class HomescreenActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
                 seasons.add(5)
             }
             val filteredSet = hashSetOf<BreakingBadCharacter>()
-            it.forEach { character ->
+            characters.forEach { character ->
                 seasons.forEach { season ->
                     if (character.appearances.contains((season.toString()))) {
                         filteredSet.add(character)
@@ -76,6 +78,7 @@ class HomescreenActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
                 }
             }
             val filteredAndSorted = arrayListOf<BreakingBadCharacter>()
+            //alphabetize recyclerview
             val filtered = filteredSet.toList().sortedBy { character ->
                 character.name
             }

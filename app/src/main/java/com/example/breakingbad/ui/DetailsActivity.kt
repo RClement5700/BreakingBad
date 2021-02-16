@@ -17,8 +17,10 @@ class DetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
+        //retrieve id from CharacterRecyclerView: Homescreen
         val charId = intent.extras?.get("char_id") as Int
         characterViewModel.getCharacter(charId).observe(this, Observer {
+            //build breaking bad character from database
             Picasso.get().load(it.img).into(iv_character_portrait)
             tv_input_name.text        = it.name
             tv_input_aka.text         = it.nickname

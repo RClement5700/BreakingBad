@@ -11,6 +11,8 @@ import com.example.breakingbad.R
 import com.example.breakingbad.character.BreakingBadCharacter
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_view_character.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CharactersRecyclerViewAdapter(private var bbCharacters: ArrayList<BreakingBadCharacter>):
     RecyclerView.Adapter<CharactersRecyclerViewAdapter.CharactersRecyclerViewHolder>(), Filterable {
@@ -30,10 +32,12 @@ class CharactersRecyclerViewAdapter(private var bbCharacters: ArrayList<Breaking
         val character: BreakingBadCharacter = breakingBadCharacters[position]
 
         holder.itemView.tv_input_nickname.text = character.nickname
-        holder.itemView.tv_char_name.text     = character.name
+        holder.itemView.tv_char_name.text      = character.name
+        //load images from img URL
         Picasso.get().load(character.img).into(holder.itemView.iv_char_icon)
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailsActivity::class.java)
+            //send character id DetailsActivity to
             intent.putExtra("char_id", character.id)
             holder.itemView.context.startActivity(intent)
         }
@@ -57,7 +61,10 @@ class CharactersRecyclerViewAdapter(private var bbCharacters: ArrayList<Breaking
                 } else {
                     val resultList = ArrayList<BreakingBadCharacter>()
                     for (row in bbCharacters) {
-                        if (row.name.toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        if (row.name.toLowerCase(Locale.ROOT).contains(
+                                constraint.toString().toLowerCase(Locale.ROOT)
+                            )
+                        ) {
                             resultList.add(row)
                         }
                     }
