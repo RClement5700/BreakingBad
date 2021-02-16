@@ -23,9 +23,9 @@ class DetailsActivity : AppCompatActivity() {
             tv_input_name.text        = it.name
             tv_input_aka.text         = it.nickname
             tv_input_birthday.text    = it.birthday
-            tv_input_occupation.text  = it.occupation
             tv_input_status.text      = it.status
-            tv_input_appearances.text = it.appearances
+            tv_input_occupation.text  = it.occupation.substring(1, it.occupation.length-1)
+            tv_input_appearances.text = it.appearances.substring(1, it.appearances.length-1)
         })
     }
 }

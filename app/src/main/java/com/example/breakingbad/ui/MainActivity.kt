@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity(), ViewSwitcher.ViewFactory, View.OnClick
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        tv_title.setOnClickListener(this)
+        image_switcher.setOnClickListener(this)
         btn_select_characters.setOnClickListener(this)
         startAnimatedBackground()
     }

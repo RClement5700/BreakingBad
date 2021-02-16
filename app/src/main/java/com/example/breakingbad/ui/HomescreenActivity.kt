@@ -146,7 +146,7 @@ class HomescreenActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
                 override fun performFiltering(constraint: CharSequence?): FilterResults {
                     val charSearch = constraint.toString()
                     if (charSearch.isEmpty()) {
-                        breakingBadCharacters = bbCharacters as ArrayList<BreakingBadCharacter>
+                        breakingBadCharacters = bbCharacters
                     } else {
                         val resultList = ArrayList<BreakingBadCharacter>()
                         for (row in bbCharacters) {
