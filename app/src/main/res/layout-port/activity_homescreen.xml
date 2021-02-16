@@ -1,19 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.appbar.AppBarLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    android:background="@android:color/white"
     tools:context=".ui.HomescreenActivity"
     tools:ignore="MissingDefaultResource">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_filters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:background="@drawable/outline_green"
+        >
+
+        <ImageButton
+            android:id="@+id/img_btn_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_baseline_filter_list"
+            android:background="@drawable/outline"
+            />
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/sv_search_characters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:queryHint="@string/query_hint"
+            android:background="@drawable/outline"
+            />
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_characters"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
         android:orientation="vertical"
+        android:background="@drawable/outline_green"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         />
 
-</FrameLayout>
+</com.google.android.material.appbar.AppBarLayout>

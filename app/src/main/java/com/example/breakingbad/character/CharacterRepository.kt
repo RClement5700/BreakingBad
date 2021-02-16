@@ -11,6 +11,10 @@ class CharacterRepository(private val characterDao: CharacterDao) {
         return characterDao.getCharacter(id)
     }
 
+    fun getCharacter(name: String): Flow<BreakingBadCharacter> {
+        return characterDao.getCharacter(name)
+    }
+
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insert(breakingBadCharacter: BreakingBadCharacter) {

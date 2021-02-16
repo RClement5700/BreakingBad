@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.example.breakingbad.BreakingBadApplication
@@ -18,10 +21,10 @@ import kotlinx.android.synthetic.main.activity_details.view.iv_character_portrai
 import kotlinx.android.synthetic.main.activity_details.view.tv_input_name
 import kotlinx.android.synthetic.main.activity_homescreen.*
 import kotlinx.android.synthetic.main.item_view_character.view.*
+import java.util.*
 
 /*
     TODO:
-        •The user should be able to search for a character by name
         •The user should be able to filter characters by season appearance
         •need to write unit tests
  */
@@ -33,12 +36,27 @@ class HomescreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homescreen)
-        val adapter      = CharactersRecyclerViewAdapter()
-        val rvCharacters = rv_characters
-        characterViewModel.allCharacters.observe(this, Observer { //it = movies
-            it.let {
-                adapter.submitList(it)
-            }
+        val adapter            = CharactersRecyclerViewAdapter()
+        val rvCharacters       = rv_characters
+        val svSearchCharacters = sv_search_characters
+        characterViewModel.allCharacters.observe(this, Observer {
+            adapter.submitList(it)
+            svSearchCharacters.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    if (adapter.getCharacterNames().contains(query)) {
+                        adapter.submitList(listOf(adapter.getCharacterByName(query))
+                                as List<BreakingBadCharacter>)
+                    } else {
+                        Toast.makeText(this@HomescreenActivity, "No Match found",
+                            Toast.LENGTH_SHORT).show()
+                    }
+                    return false
+                }
+                override fun onQueryTextChange(newText: String): Boolean {
+                    adapter.submitList(it)
+                    return false
+                }
+            })
         })
         rvCharacters.adapter = adapter
     }
@@ -69,6 +87,25 @@ class HomescreenActivity : AppCompatActivity() {
         fun submitList(breakingBadCharacters: List<BreakingBadCharacter>) {
             this.breakingBadCharacters = breakingBadCharacters
             notifyDataSetChanged()
+        }
+
+        fun getCharacterNames(): List<String> {
+            val charNames = arrayListOf<String>()
+            breakingBadCharacters.forEach{
+                charNames.add(it.name)
+            }
+            return charNames
+        }
+
+        fun getCharacterByName(name: String): BreakingBadCharacter? {
+            var character: BreakingBadCharacter? = null
+            breakingBadCharacters.forEach {
+                if (name.equals(it.name, ignoreCase = true) ||
+                    name.equals(it.nickname, ignoreCase = true)) {
+                        character = it
+                }
+            }
+            return character
         }
         inner class CharactersRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     }

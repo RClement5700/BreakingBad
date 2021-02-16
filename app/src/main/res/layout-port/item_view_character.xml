@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="24dp"
-    android:background="@android:drawable/dialog_holo_light_frame"
+    android:background="@drawable/outline"
     tools:ignore="MissingDefaultResource">
 
     <ImageView
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/name"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:textColor="@android:color/black"
         android:textStyle="italic"
         app:layout_constrainedWidth="true"
@@ -46,7 +46,7 @@
         android:layout_margin="16dp"
         android:maxLines="2"
         android:text="@string/aka"
-        android:textSize="16sp"
+        android:textSize="12sp"
         android:textColor="@android:color/black"
         app:layout_constrainedWidth="true"
         app:layout_constraintStart_toEndOf="@+id/iv_character_portrait"
@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:maxLines="2"
-        android:textSize="16sp"
+        android:textSize="12sp"
         android:textColor="@android:color/black"
         app:layout_constrainedWidth="true"
         app:layout_constraintStart_toEndOf="@+id/tv_aka"

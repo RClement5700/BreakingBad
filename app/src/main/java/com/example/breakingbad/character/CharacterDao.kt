@@ -15,6 +15,9 @@ interface CharacterDao {
     @Query("SELECT * FROM character_table WHERE id LIKE :id")
     fun getCharacter(id: Int): Flow<BreakingBadCharacter>
 
+    @Query("SELECT * FROM character_table WHERE name LIKE :name")
+    fun getCharacter(name: String): Flow<BreakingBadCharacter>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(breakingBadCharacter: BreakingBadCharacter)
 

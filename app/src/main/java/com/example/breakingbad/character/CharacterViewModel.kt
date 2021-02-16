@@ -11,6 +11,10 @@ class CharacterViewModel(private val characterRepository: CharacterRepository): 
         return characterRepository.getCharacter(id).asLiveData()
     }
 
+    fun getCharacter(name: String): LiveData<BreakingBadCharacter> {
+        return characterRepository.getCharacter(name).asLiveData()
+    }
+
     fun insert(breakingBadCharacter: BreakingBadCharacter) {
         viewModelScope.launch {
             characterRepository.insert(breakingBadCharacter)
